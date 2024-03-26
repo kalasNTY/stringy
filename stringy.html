@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stringy App</title>
+</head>
+<body>
+
+<div>
+  <label for="textInput">Enter text:</label>
+  <input type="text" id="textInput">
+</div>
+
+<div>
+  <button onclick="processString('revcomp')">Reverse Complement</button>
+  <button onclick="processString('comp')">Complement</button>
+  <button onclick="processString('rev')">Reverse</button>
+</div>
+
+<div>
+  <label for="output">Output:</label>
+  <textarea id="output" rows="5" cols="50"></textarea>
+</div>
+
+<script>
+function processString(mode) {
+  var textInput = document.getElementById("textInput").value;
+  var outputTextarea = document.getElementById("output");
+  
+  // Clear existing output
+  outputTextarea.value = '';
+  
+  // Call the stringy function
+  stringy(textInput, mode);
+}
+
+// The stringy function
+function stringy(text, mode) {
+  let init = '';
+  let letter;
+  text = text.toUpperCase();
+  
+  if (mode == "rev") {
+    for (let i = text.length - 1; i >= 0; i--) {
+      letter = text[i];
+      init = init + letter;
+    }
+  } else if (mode == "revcomp") {
+    for (let i = text.length - 1; i >= 0; i--) {
+      letter = text[i];
+      if (letter === "A") { letter = "T"; }
+      else if (letter === "G") { letter = "C"; }
+      else if (letter === "C") { letter = "G"; }
+      else if (letter === "T") { letter = "A"; }
+      else if (letter === "U") { console.log('Warning, RNA input identified. DNA output generated'); letter = "A"; }
+      else if (letter === "N") { console.log("Warning, N in string"); letter = "N"; }
+      else { console.log('Warning, invalid character ' + letter + 'on position ' + i + 'of input string'); letter = 'X'; }
+      init = init + letter;
+    }
+  } else if (mode == "comp") {
+    for (let i = 0; i < text.length; i++) {
+      letter = text[i];
+      if (letter === "A") { letter = "T"; }
+      else if (letter === "G") { letter = "C"; }
+      else if (letter === "C") { letter = "G"; }
+      else if (letter === "T") { letter = "A"; }
+      else if (letter === "U") { console.log('Warning, RNA input identified. DNA output generated'); letter = "A"; }
+      else if (letter === "N") { console.log("Warning, N in string"); letter = "N"; }
+      else { console.log('Warning, invalid character ' + letter + 'on position ' + i + 'of input string'); letter = 'X'; }
+      init = init + letter;
+    }
+  }
+
+  // Output the result to the textarea
+  console.log(init);
+  var outputTextarea = document.getElementById("output");
+  outputTextarea.value = init;
+}
+</script>
+
+</body>
+</html>
